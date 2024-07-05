@@ -8,6 +8,10 @@ class Task {
     toggleComplete() {
         this.completed = !this.completed;
     }
+
+    updateDescription(description) {
+        this.description = description;
+    }
 }
 
 class TaskManager {
@@ -22,6 +26,15 @@ class TaskManager {
         this.tasks.push(task);
         this.saveTasks();
         this.renderTasks();
+    }
+
+    editTask(id, newDescription) {
+        const taskEdit = this.tasks.find(tasks => tasks.id === id);
+        if (taskEdit) {
+            taskEdit.updateDescription(newDescription);
+            this.saveTasks();
+            this.renderTasks();
+        }
     }
 
     deleteTask(id) {
@@ -65,6 +78,15 @@ class TaskManager {
                 alert('Tarea completada')
             });
 
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Editar';
+            editButton.addEventListener('click', () => {
+                const newDescription = prompt('Ingrese la nueva descripción:', task.description);
+                if (newDescription !== null) {
+                    this.editTask(task.id, newDescription);
+                }
+            });
+
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Eliminar';
             deleteButton.addEventListener('click', (e) => {
@@ -72,6 +94,7 @@ class TaskManager {
                 this.deleteTask(task.id);
             });
 
+            item.appendChild(editButton);
             item.appendChild(completedButton);
             item.appendChild(deleteButton);
             taskList.appendChild(item);
