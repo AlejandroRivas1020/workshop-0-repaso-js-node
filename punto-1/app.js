@@ -29,9 +29,10 @@ class TaskManager {
     }
 
     editTask(id, newDescription) {
-        const taskEdit = this.tasks.find(tasks => tasks.id === id);
+        const taskEdit = this.tasks.find(task => task.id === id);
         if (taskEdit) {
             taskEdit.updateDescription(newDescription);
+            // taskEdit.description = newDescription;
             this.saveTasks();
             this.renderTasks();
         }
